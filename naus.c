@@ -130,7 +130,7 @@ void get_force(double *x, double *v, double *a);
 void do_step(double dt, double *x, double *v);
 int rcsuche(int Nt, double **start, int **neighborlistt, double mxt, double myt, double mzt, int densitylevelt, double *Rct);	
 int escape(FILE *esc, int Nt, double **start, double rtidet, double mxt, double myt, double mzt, double mvxt, double mvyt, double mvzt, double omegat, double timet, double sigmat, double kTt, double Mt, int outputtypet, double **timebint, int timebinsizet, double thresholdt);
-void convert(double *x, double *v, double *dsun, double *vrsun, double *vr, double *l, double *b, double *lcosb, double *RA, double *DEC, double *mu_alpha, double *mu_alphacosdelta, double *mu_delta, double *mutemp, double *PAtemp, int coordtype, int vcoordtype, int radiococo, double vLSRtemp);
+void convert(double *x, double *v, double *dsun, double *vrsun, double *vr, double *l, double *b, double *lcosb, double *RA, double *DEC, double *mu_alpha, double *mu_alphacosdelta, double *mu_delta, double *mutemp, double *PAtemp, double *mul, double *mub, double *mulcosb, int coordtype, int vcoordtype, int radiococo, double vLSRtemp);
 
 
 
@@ -688,7 +688,7 @@ int main(int argc , char * argv[]){
 						
 						FILE *out;
 						char output[200];
-						double xtemp[3], vtemp[3], dsuntemp, vrsuntemp, vrtemp, lcosbtemp, RAtemp, DECtemp, mu_alphatemp, mu_alphacosdeltatemp, mu_deltatemp, mutemp, PAtemp;
+						double xtemp[3], vtemp[3], dsuntemp, vrsuntemp, vrtemp, lcosbtemp, RAtemp, DECtemp, mu_alphatemp, mu_alphacosdeltatemp, mu_deltatemp, mutemp, PAtemp, multemp, mubtemp, mulcosbtemp;
 						
 						
 						//write summary to .new
@@ -934,7 +934,7 @@ int main(int argc , char * argv[]){
 							vtemp[0] = VG[0];
 							vtemp[1] = VG[1];
 							vtemp[2] = VG[2];
-							convert(xtemp, vtemp, &dsuntemp, &vrsuntemp, &vrtemp, &ltemp, &btemp, &lcosbtemp, &RAtemp, &DECtemp, &mu_alphatemp, &mu_alphacosdeltatemp, &mu_deltatemp, &mutemp, &PAtemp, 3, 3, 0, vLSR);
+							convert(xtemp, vtemp, &dsuntemp, &vrsuntemp, &vrtemp, &ltemp, &btemp, &lcosbtemp, &RAtemp, &DECtemp, &mu_alphatemp, &mu_alphacosdeltatemp, &mu_deltatemp, &mutemp, &PAtemp, &multemp, &mubtemp, &mulcosbtemp, 3, 3, 0, vLSR);
 							
 							Rtemp = dsuntemp;
 							vr = vrsuntemp;
@@ -1035,7 +1035,7 @@ int main(int argc , char * argv[]){
 									vtemp[0] = VG[0]+star[l][4];
 									vtemp[1] = VG[1]+star[l][5];
 									vtemp[2] = VG[2]+star[l][6];
-									convert(xtemp, vtemp, &dsuntemp, &vrsuntemp, &vrtemp, &ltemp, &btemp, &lcosbtemp, &RAtemp, &DECtemp, &mu_alphatemp, &mu_alphacosdeltatemp, &mu_deltatemp, &mutemp, &PAtemp, 3, 3, 0, vLSR);
+									convert(xtemp, vtemp, &dsuntemp, &vrsuntemp, &vrtemp, &ltemp, &btemp, &lcosbtemp, &RAtemp, &DECtemp, &mu_alphatemp, &mu_alphacosdeltatemp, &mu_deltatemp, &mutemp, &PAtemp, &multemp, &mubtemp, &mulcosbtemp, 3, 3, 0, vLSR);
 
 									if (ltemp>180.0) {
 										ltemp -=360.0;
@@ -1107,7 +1107,8 @@ int main(int argc , char * argv[]){
 																		
 									
 									if (vmag < vlimit) {
-										fprintf(out,"%.0f\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.0lf\t%.16lf\n",star[l][0],Rtemp,ltemp,btemp,vmag,abvmag,BV,vr,star[l][8],dvmag,star[l][10],dBV,Teff,star[l][13],drdeg);
+										//fprintf(out,"%.0f\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.0lf\t%.16lf\n",star[l][0],Rtemp,ltemp,btemp,vmag,abvmag,BV,vr,star[l][8],dvmag,star[l][10],dBV,Teff,star[l][13],drdeg);
+										fprintf(out,"%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\n",,star[l][1]+RG[0],star[l][2]+RG[1],star[l][3]+RG[2],star[l][4]+VG[0],star[l][5]+VG[1],star[l][6]+VG[2], RAtemp, DECtemp, ltemp, btemp, Rtemp, vr, mu_alphatemp, mu_deltatemp, mu_alphacosdeltatemp, multemp, mubtemp, mulcosbtemp);
 										
 										//Binning in observer coordinates
 										xt = 1.0*(ltemp+180.0)/ybinsize;
@@ -1164,7 +1165,7 @@ int main(int argc , char * argv[]){
 						vtemp[1] = VG[1];
 						vtemp[2] = VG[2];
 						
-						convert(xtemp, vtemp, &dsuntemp, &vrsuntemp, &vrtemp, &ltemp, &btemp, &lcosbtemp, &RAtemp, &DECtemp, &mu_alphatemp, &mu_alphacosdeltatemp, &mu_deltatemp, &mutemp, &PAtemp, 3, 3, 0, vLSR);
+						convert(xtemp, vtemp, &dsuntemp, &vrsuntemp, &vrtemp, &ltemp, &btemp, &lcosbtemp, &RAtemp, &DECtemp, &mu_alphatemp, &mu_alphacosdeltatemp, &mu_deltatemp, &mutemp, &PAtemp, &multemp, &mubtemp, &mulcosbtemp, 3, 3, 0, vLSR);
 						
 						xgal = RG[0]+rgalsun;
 						ygal = RG[1];
@@ -2426,7 +2427,7 @@ int bound_star_analysis(int Nt, double **start, int **neighborlistt, int neighbo
 	return 1;
 }
 
-void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, double *vrtemp, double *ltemp, double *btemp, double *lcosbtemp, double *RAtemp, double *DECtemp, double *mu_alphatemp, double *mu_alphacosdeltatemp, double *mu_deltatemp, double *mutemp, double *PAtemp, int coordtype, int vcoordtype, int radiococo, double vLSRtemp){
+void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, double *vrtemp, double *ltemp, double *btemp, double *lcosbtemp, double *RAtemp, double *DECtemp, double *mu_alphatemp, double *mu_alphacosdeltatemp, double *mu_deltatemp, double *mutemp, double *PAtemp, double *mu_ltemp, double *mu_btemp, double *mu_lcosbtemp, int coordtype, int vcoordtype, int radiococo, double vLSRtemp){
 	
 	double x,y,z;        //galactic coordinates [kpc]
 	double xsun = -rgalsun/1000.0;//galactocentric distance of sun [kpc]
@@ -2441,7 +2442,7 @@ void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, 
 	double detT;
 	double RArad, DECrad;
 	double brad, lrad, lcosbrad;
-	double mu_alphacosdelta, mu_delta, mu, PArad;
+	double mu_alphacosdelta, mu_delta, mu, PArad, mu_l, mu_b, mu_lcosb;
 	double vr, vrsun;
 	double RAENP = 0.0, DECENP = PI/2.0;  //equatorial coordinates of equatorial north pole
 	double xENP, yENP, zENP, dxyENP; //cartesian vector pointing to the equatorial north pole  
@@ -2450,7 +2451,8 @@ void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, 
 	double xdelta, ydelta, zdelta;
 	double nx, ny, nz, dvt;
 	double vrLSR, vrGSR;
-	
+	double C1, C2;
+    
 	
 	//transformation matrix equ. -> gal. from Johnson & Soderblom (1987)
 	t = PAGNP/360.0*2.0*PI;
@@ -2656,11 +2658,19 @@ void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, 
 		vy = vrsun*B[1][0] + mu_alphacosdelta*B[1][1] + mu_delta*B[1][2] +vysun+vLSRtemp;
 		vz = vrsun*B[2][0] + mu_alphacosdelta*B[2][1] + mu_delta*B[2][2] +vzsun;
 		
-		
+        
 		if (radiococo) printf("\nCartesian velocity:\n");
 		if (radiococo) printf("vx = %.3f\tvy = %.3f\tvz = %.3f\tv = %.3f [km/s]\n",vx,vy,vz, sqrt(vx*vx+vy*vy+vz*vz));
 		if (radiococo) printf("vx = %.3f\tvy = %.3f\tvz = %.3f\tv = %.3f [km/s] (heliocentric)\n",vx-vxsun,vy-vysun-vLSRtemp,vz-vzsun, sqrt(pow(vx-vxsun,2)+pow(vy-vysun-vLSRtemp,2)+pow(vz-vzsun,2)));
-		
+
+        
+        //get proper motion in galactic coordinates (Poleski 2013)
+        C1 = sin(d)*cos(DECrad)-cos(d)*sin(DECrad)*cos(RArad-a);
+        C2 = cos(d)*sin(RArad-a);
+        
+        mu_lcosb = (C1*mu_alphacosdelta+C2*mu_delta)/cos(brad);
+        mu_b = (-C2*mu_alphacosdelta+C1*mu_delta)/cos(brad);
+
 	} else if (vcoordtype == 2) {
 		
 		//get radial velocity in 3d coordinates [km/s]
@@ -2749,6 +2759,13 @@ void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, 
 		if (radiococo) printf("\nProper motion and position angle:\n");
 		if (radiococo) printf("mu = %f\tPA = %f\n", mu, PArad);
 		
+        //get proper motion in galactic coordinates (Poleski 2013)
+        C1 = sin(d)*cos(DECrad)-cos(d)*sin(DECrad)*cos(RArad-a);
+        C2 = cos(d)*sin(RArad-a);
+        
+        mu_lcosb = (C1*mu_alphacosdelta+C2*mu_delta)/cos(brad);
+        mu_b = (-C2*mu_alphacosdelta+C1*mu_delta)/cos(brad);
+        
 	} else if (vcoordtype == 3) {
 		
 		if (radiococo) printf("\nCartesian velocity:\n");
@@ -2799,6 +2816,13 @@ void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, 
 		mu_delta = mu*cos(PArad);
 		mu_alphacosdelta = mu*sin(PArad);
 		
+        //get proper motion in galactic coordinates (Poleski 2013)
+        C1 = sin(d)*cos(DECrad)-cos(d)*sin(DECrad)*cos(RArad-a);
+        C2 = cos(d)*sin(RArad-a);
+        
+        mu_lcosb = (C1*mu_alphacosdelta+C2*mu_delta)/cos(brad);
+        mu_b = (-C2*mu_alphacosdelta+C1*mu_delta)/cos(brad);
+
 	}
 	
 	
@@ -2843,7 +2867,11 @@ void convert(double *xtemp, double *vtemp, double *dsuntemp, double *vrsuntemp, 
 	*mu_deltatemp = mu_delta/(dsun*4.74057);
 	*mu_alphacosdeltatemp = mu_alphacosdelta/(dsun*4.74057);
 	*mu_alphatemp = *mu_alphacosdeltatemp/cos(DECrad);
-	
+
+    *mu_btemp = mu_b/(dsun*4.74057);
+	*mu_lcosbtemp = mu_lcosb/(dsun*4.74057);
+	*mu_ltemp = *mu_lcosbtemp/cos(brad);
+
 }
 
 int readin0(FILE *posfile, int *Ntott, int *Nt, double *timet, double *tbart, double *rtidet, double *rbart, double *vbart, double *mbart, double *omegat, double *Etott, double *rcoret, double **start, double *RGt, double *VGt, int outputtypet, int Nmaxt) {  //McLuster;
