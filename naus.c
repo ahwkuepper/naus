@@ -1108,7 +1108,7 @@ int main(int argc , char * argv[]){
 									
 									if (vmag < vlimit) {
 										//fprintf(out,"%.0f\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.16lf\t%.0lf\t%.16lf\n",star[l][0],Rtemp,ltemp,btemp,vmag,abvmag,BV,vr,star[l][8],dvmag,star[l][10],dBV,Teff,star[l][13],drdeg);
-										fprintf(out,"%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\n",,star[l][1]+RG[0],star[l][2]+RG[1],star[l][3]+RG[2],star[l][4]+VG[0],star[l][5]+VG[1],star[l][6]+VG[2], RAtemp, DECtemp, ltemp, btemp, Rtemp, vr, mu_alphatemp, mu_deltatemp, mu_alphacosdeltatemp, multemp, mubtemp, mulcosbtemp);
+										fprintf(out,"%.0f\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.8lf\t%.0lf\t%.8lf\n",star[l][0],star[l][1]+RG[0],star[l][2]+RG[1],star[l][3]+RG[2],star[l][4]+VG[0],star[l][5]+VG[1],star[l][6]+VG[2], RAtemp, DECtemp, ltemp, btemp, Rtemp, vr, mu_alphatemp, mu_deltatemp, mu_alphacosdeltatemp, multemp, mubtemp, mulcosbtemp,vmag,abvmag,dvmag,BV,dBV,star[l][8],star[l][10],Teff,star[l][13],drdeg);
 										
 										//Binning in observer coordinates
 										xt = 1.0*(ltemp+180.0)/ybinsize;
