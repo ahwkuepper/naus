@@ -151,7 +151,7 @@ int main(int argc , char * argv[]){
 	int Nmax = 300000;                      //size of data array, minimum is twice the initial star number
 	int Mend = 0;                           //stop analysis if M<Mend [M_sun]
 	int analysistimestep = 1;               //time step for analysis [Myr]; 1: all available time steps
-	int quick_and_dirty_analysis = 0;       //calculation of binding energy and neighbours; 0: detailed; 1: fast
+	int quick_and_dirty_analysis = 1;       //calculation of binding energy and neighbours; 0: detailed; 1: fast
 	int standard_densitylevel = 5;          //Casertano & Hut density estimator level (j) (standard = 5)
 	int standard_neighbornumber	= 20;       //length of neighbour list [20 is a reasonable size]
 	int standard_status = 2;                //calculate basic cluster parameters by taking into account: 1: all bound stars within rtide; 2: all stars within rtide; 3: all stars within 2*rtide
@@ -1543,9 +1543,9 @@ void get_force(double *x, double *v, double *a){
     //Log Halo from Koposov et al. (2010)
     r3 = *x * *x + *(x+1) * *(x+1) + *(x+2)/q_halo * *(x+2)/q_halo + RCIRC*RCIRC; //R^2!
         
-    a3x = -VCIRC *  *x/r3;
-    a3y = -VCIRC *  *(x+1)/r3;
-    a3z = -VCIRC *  *(x+2)/(q_halo*q_halo*r3);
+    a3x = -VCIRC*VCIRC *  *x/r3;
+    a3y = -VCIRC*VCIRC *  *(x+1)/r3;
+    a3z = -VCIRC*VCIRC *  *(x+2)/(q_halo*q_halo*r3);
         
     //alternatively
     //NFW halo
@@ -3264,8 +3264,8 @@ int readin2(FILE *posfile, int *Ntott, int *Nt, double *timet, double *tbart, do
 
     q_halo = as[39];
     
-    VCIRC = sqrt(as[32]**vbart);
-    RCIRC = sqrt(as[33]**rbart);
+    VCIRC = sqrt(as[32])**vbart;
+    RCIRC = sqrt(as[33])**rbart;
     if (RCIRC <= 0.0) RCIRC = 1.0;
 
     MNFW = as[37]**mbart;
@@ -3798,8 +3798,8 @@ int readin6(FILE *posfile, int *Ntott, int *Nt, double *timet, double *tbart, do
     
     q_halo = as[39];
     
-    VCIRC = sqrt(as[32]**vbart);
-    RCIRC = sqrt(as[33]**rbart);
+    VCIRC = sqrt(as[32])**vbart;
+    RCIRC = sqrt(as[33])**rbart;
     if (RCIRC <= 0.0) RCIRC = 1.0;
     
     MNFW = as[37]**mbart;
