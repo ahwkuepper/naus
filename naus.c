@@ -1716,8 +1716,8 @@ int Kradii(int Nt, double **start, int statust, double *LRt, double mxt, double 
 			LRt[8] = radiiarray[l][0];
 		else if ((LRt[9] == 0) && (Mtemp >= 0.8*Mgestemp))
 			LRt[9] = radiiarray[l][0];
-		else if ((LRt[5] == 0) && (Mtemp >= 0.9*Mgestemp))
-			LRt[5] = radiiarray[l][0];
+		else if ((LRt[10] == 0) && (Mtemp >= 0.9*Mgestemp))
+			LRt[10] = radiiarray[l][0];
 	}
 	
 	for (l=0;l<Nt;l++) free (radiiarray[l]);
