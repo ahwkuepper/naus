@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Andreas Kuepper                                 *
- *   akuepper@astro.uni-bonn.de                                            *
+ *   Copyright (C) 2008-2015 by Andreas Kuepper                            *
+ *   ahwkuepper@gmail.com                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +17,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
+/***************************************************************************
+ *   Compile using the command: cc -o naus naus.c -lm                      *
+ ***************************************************************************/
 /***************************************************************************
  *  star array description:                                                *
  *   star[x][0]    -  name                                                 *
